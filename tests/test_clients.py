@@ -30,7 +30,7 @@ async def test_raiderio_client_get_top_scores_successful(
     )
 
     raiderio_client = RaiderIoClient(parse_function=parse, **raiderio_client_params)
-    process_result = await raiderio_client.get_top_scores(class_="rogue", limit=10)
+    process_result = await raiderio_client.get_top_scores(class_="rogue")
     assert process_result == "parsed: raider.io response content"
     mocked_get_request.assert_called_once_with(
         "https://raider.io/rogue",
@@ -55,7 +55,7 @@ async def test_raiderio_client_get_top_scores_with_some_parse_fail(
     )
 
     with pytest.raises(ParseError):
-        await raiderio_client.get_top_scores(class_="rogue", limit=10)
+        await raiderio_client.get_top_scores(class_="rogue")
 
 
 @mock.patch("aiohttp.client.ClientSession.get")
@@ -70,4 +70,4 @@ async def test_raiderio_client_get_top_scores_with_some_http_error(
     tj_client = RaiderIoClient(parse_function=parse, **raiderio_client_params)
 
     with pytest.raises(TimeoutError):
-        await tj_client.get_top_scores(class_="rogue", limit=10)
+        await tj_client.get_top_scores(class_="rogue")

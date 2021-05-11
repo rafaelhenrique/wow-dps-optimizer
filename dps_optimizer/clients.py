@@ -4,6 +4,7 @@ import aiohttp
 
 from .config import settings
 from .exceptions import ParseError
+from .parsers import parse_content
 
 
 class RaiderIoClient:
@@ -19,7 +20,7 @@ class RaiderIoClient:
         self.headers = headers
         self.parse = parse_function
 
-    async def get_top_scores(self, *, class_: str = "rogue", limit: int = 10) -> str:
+    async def get_top_scores(self, *, class_: str = "rogue") -> str:
         url = self.url.format(class_=class_)
         headers = self.headers
         async with aiohttp.ClientSession(timeout=self.timeout) as session:
@@ -38,5 +39,5 @@ raiderio_client = RaiderIoClient(
     url=settings.RAIDER_IO_URL,
     timeout=10,
     headers={},
-    parse_function=lambda x: x,
+    parse_function=parse_content,
 )
